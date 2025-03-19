@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const { getTasks, createTask } = require("../controllers/controllerTasks");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+router.get("/", getTasks);
+router.post("/tasks", createTask);
 
 module.exports = router;
