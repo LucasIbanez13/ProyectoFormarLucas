@@ -32,6 +32,48 @@ module.exports = {
       res.status(500).json({ error: "Ocurrió un error." });
     }
   },
-
+  // Editar
+  updateTask: (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, description } = req.body;
+  
+      const taskIndex = tasks.findIndex(task => task.id == id);
+  
+      if (taskIndex === -1) {
+        return res.status(404).json({ error: "Tarea no encontrada." });
+      }
+  
+      if (name) tasks[taskIndex].name = name.trim();
+      if (description) tasks[taskIndex].description = description.trim();
+  
+      res.json({ message: "Tarea actualizada", task: tasks[taskIndex] });
+  
+    } catch (error) {
+      console.error("Error en updateTask:", error);
+      res.status(500).json({ error: "Ocurrió un error al actualizar la tarea." });
+    }
+  },
+    // Eliminar
+    deleteTask: (req, res) => {
+      try {
+        const { id } = req.params;
+  
+        const taskIndex = tasks.findIndex(task => task.id == id);
+    
+        if (taskIndex === -1) {
+          return res.status(404).json({ error: "Tarea no encontrada." });
+        }
+    
+        const deletedTask = tasks.splice(taskIndex, 1)[0];
+    
+        res.json({ message: "Tarea eliminada exitosamente", task: deletedTask });
+    
+      } catch (error) {
+        console.error("Error en deleteTask:", error);
+        res.status(500).json({ error: "Ocurrió un error al eliminar la tarea." });
+      }
+    }
+  
 
 };
